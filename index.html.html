@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lopas — Dashboard GR 2026</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',sans-serif;
+  background:linear-gradient(135deg,#1a2f1a 0%,#2f572a 60%,#4a7c59 100%);
+  min-height:100vh;display:flex;align-items:center;justify-content:center;}
+.box{background:#fff;border-radius:16px;padding:48px 40px;width:380px;
+  box-shadow:0 20px 60px rgba(0,0,0,.3);text-align:center;}
+.logo{font-size:28px;font-weight:800;color:#2f572a;letter-spacing:-1px;margin-bottom:4px;}
+.logo span{color:#74aa2d;}
+.sub{font-size:12px;color:#888;margin-bottom:32px;font-weight:500;letter-spacing:.5px;}
+.field{margin-bottom:16px;text-align:left;}
+label{display:block;font-size:11px;font-weight:700;color:#555;
+  margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px;}
+input{width:100%;padding:12px 14px;border:1.5px solid #e0e0e0;
+  border-radius:8px;font-size:14px;outline:none;transition:.2s;font-family:inherit;}
+input:focus{border-color:#2f572a;box-shadow:0 0 0 3px rgba(47,87,42,.1);}
+.btn{width:100%;margin-top:8px;padding:13px;background:#2f572a;color:#fff;
+  border:none;border-radius:8px;font-size:14px;font-weight:700;
+  cursor:pointer;transition:.2s;letter-spacing:.3px;}
+.btn:hover{background:#4a8c3f;}
+.err{margin-top:14px;color:#c0392b;font-size:12px;font-weight:600;display:none;}
+.ok{margin-top:14px;color:#2f6b3a;font-size:12px;font-weight:600;display:none;}
+.foot{margin-top:28px;font-size:10px;color:#bbb;}
+</style>
+</head>
+<body>
+<div class="box">
+  <div class="logo">Lopas <span>GR 2026</span></div>
+  <div class="sub">DASHBOARD DE INTELIGÊNCIA COMERCIAL</div>
+  <div class="field">
+    <label>E-mail</label>
+    <input type="email" id="lemail" placeholder="seu@email.com">
+  </div>
+  <div class="field">
+    <label>Senha</label>
+    <input type="password" id="lpwd" placeholder="Digite a senha">
+  </div>
+  <button class="btn" onclick="lauth()">Entrar</button>
+  <div class="err" id="lerr">E-mail ou senha incorretos. Tente novamente.</div>
+  <div class="ok" id="lok">Autenticado! Redirecionando...</div>
+  <div class="foot">Lopas Móveis &copy; 2026 &mdash; Acesso restrito</div>
+</div>
+<script>
+var USERS = {
+  "af74ced1": {pwd:"144e46bf", url:"https://mkt-lopas.github.io/lopas-gr-geral", nome:"Geral Lopas"},
+  "a355ba83": {pwd:"144e46bf", url:"https://mkt-lopas.github.io/lopas-gr-baltazar", nome:"Baltazar"},
+  "9bf9933b": {pwd:"144e46bf", url:"https://mkt-lopas.github.io/lopas-gr-marcos", nome:"Marcos"},
+  "7fac7fb3": {pwd:"144e46bf", url:"https://mkt-lopas.github.io/lopas-gr-flavio", nome:"Flávio"},
+  "6069457c": {pwd:"144e46bf", url:"https://mkt-lopas.github.io/lopas-gr-emmanuel", nome:"Emmanuel"},
+  "250eeea4": {pwd:"144e46bf", url:"https://mkt-lopas.github.io/lopas-gr-bianca", nome:"Bianca"},
+};
+function sh(s){var h=0;for(var i=0;i<s.length;i++){h=Math.imul(31,h)+s.charCodeAt(i)|0;}return(h>>>0).toString(16);}
+function lauth(){
+  var e=document.getElementById('lemail').value.trim().toLowerCase();
+  var p=document.getElementById('lpwd').value;
+  if(!e||!p){document.getElementById('lerr').style.display='block';return;}
+  var he=sh(e), hp=sh(p);
+  var u=USERS[he];
+  if(u && u.pwd===hp){
+    document.getElementById('lerr').style.display='none';
+    document.getElementById('lok').style.display='block';
+    document.getElementById('lok').textContent='Olá, '+u.nome+'! Redirecionando...';
+    setTimeout(function(){window.location.href=u.url;},1500);
+  } else {
+    document.getElementById('lerr').style.display='block';
+    document.getElementById('lpwd').value='';
+    document.getElementById('lpwd').focus();
+  }
+}
+document.getElementById('lpwd').addEventListener('keydown',function(e){if(e.key==='Enter')lauth();});
+document.getElementById('lemail').addEventListener('keydown',function(e){if(e.key==='Enter')document.getElementById('lpwd').focus();});
+</script>
+</body>
+</html>
